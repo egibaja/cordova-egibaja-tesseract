@@ -10,7 +10,7 @@ var ncp = require('ncp').ncp;
 ncp.limit = 16;
  
 var lib_source = path.join(rootdir,'libs');
-var lib_dest = path.join(rootdir,'..', '..', 'platforms', 'android', 'libs')
+var lib_dest = path.join(rootdir,'..', '..', 'platforms', 'android', 'libs');
 
 console.log(lib_dest)
 
@@ -21,8 +21,8 @@ ncp(lib_source, lib_dest, function (err) {
  console.log('lib done!');
 });
 
-var tessdata_source = path.join(rootdir,'tessdata');
-var tessdata_dest = path.join(rootdir,'..', '..', 'platforms', 'android', 'assets')
+var tessdata_source = path.join(rootdir,'tessdata','');
+var tessdata_dest = path.join(rootdir,'..', '..', 'platforms', 'android', 'assets');
 
 console.log(tessdata_dest)
 
