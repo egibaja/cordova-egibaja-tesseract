@@ -1,4 +1,4 @@
-# cordova-juleskelly-tesseract
+# cordova-egibaja-tesseract
 Tesseract OCR Plugin for Cordova
 
 ## How to install
@@ -6,7 +6,7 @@ Before installing the plugin to your project, you need to do a few things:
 
 1. Copy the `contents of the libs` folder to `platforms/android/libs` directory of your Cordova project
 2. Copy the `tessdata` folder to `platforms/android/assets` directory of your Cordova project
-3. Instal the plugin using `cordova plugin add http://github.com/phoenixtwister/cordova-juleskelly-tesseract.git`
+3. Instal the plugin using `cordova plugin add https://github.com/egibaja/cordova-egibaja-tesseract.git`
 
 ## How to use
 Add this code on the `deviceready` event of your project. This takes time on your first run of your application.
@@ -26,6 +26,7 @@ Whenever you want to scan the text on your image, you have to pass the image pat
     });
     
 ## Notes
+Based heavily on http://github.com/phoenixtwister/cordova-juleskelly-tesseract.git
 This plugin uses Tess-Two Tesseract Tools for integrating it for Android
 [https://github.com/rmtheis/tess-two/tree/master/tess-two]
 
