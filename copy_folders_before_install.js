@@ -5,6 +5,8 @@ console.log(rootdir);
 
 console.log("Running hook: " + path.basename(__filename));
 
+var ncp = require('ncp').ncp;
+
 ncp.limit = 16;
  
 var lib_source = path.join(rootdir,'libs','*');
