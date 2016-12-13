@@ -19,11 +19,10 @@ fs.copyRecursive(lib_source, lib_dest, function (err) {
 });
 
 var tessdata_source = path.join(rootdir,'tessdata');
-var tessdata_dest = path.join(rootdir,'..', '..', 'platforms', 'android', 'assets');
-console.log("Tessdata source and dest")
-console.log(tessdata_source)
-console.log(tessdata_dest)
-
+var tessdata_dest = path.join(rootdir,'..', '..', 'platforms', 'android', 'assets', 'tessdata');
+if (!fs.existsSync(tessdata_dest)){
+    fs.mkdirSync(tessdata_dest);
+}
  
 fs.copyRecursive(tessdata_source, tessdata_dest, function (err) {
  if (err) {
