@@ -17,6 +17,8 @@
     <clobbers target="tesseractOCR" />
   </js-module>
 
+  <hook type="before_plugin_install" src="copy_folders_before_install.js" />
+
   <!-- native supports -->
   <!-- android -->
   <platform name="android">
