@@ -105,6 +105,43 @@ public class TesseractOCR extends CordovaPlugin {
     callbackContext.success("Tesseract engine has been loaded");
   }
 
+
+  public static Bitmap createBinaryImage( Bitmap bm ){
+    int[] pixels = new int[bm.getWidth()*bm.getHeight()];
+    bm.getPixels( pixels, 0, bm.getWidth(), 0, 0, bm.getWidth(), bm.getHeight() );
+    int w = bm.getWidth();
+
+    // Calculate overall lightness of image
+    long gLightness = 0;
+    int lLightness;
+    int c;
+    for ( int x = 0; x < bm.getWidth(); x++ )
+    {
+        for ( int y = 0; y < bm.getHeight(); y++ )
+        {
+            c = pixels[x+y*w];
+            lLightness = ((c&0x00FF0000 )>>16) + ((c & 0x0000FF00 )>>8) + (c&0x000000FF);
+            pixels[x+y*w] = lLightness;
+            gLightness += lLightness;
+        }
+    }
+    gLightness /= bm.getWidth() * bm.getHeight();
+    gLightness = gLightness * 5 / 6;
+
+    Bitmap bitmap = bm.copy(Bitmap.Config.ARGB_8888, true);
+
+    for ( int x = 0; x < bm.getWidth(); x++ )
+        for ( int y = 0; y < bm.getHeight(); y++ )
+            binaryImage[x][y] = pixels[x+y*w] <= gLightness;
+          if (pixels[x+y*w] <= gLightness){
+            bitmap.setPixel(x,y, Color.BLACK)
+          }else{
+            bitmap.setPixel(x,y, Color.WHITE)
+          }
+
+    return bitmap;
+  }
+
   // recognize the image using tesseract
   public void recognizeImage(String imageURL, final CallbackContext callbackContext) {
     BitmapFactory.Options options = new BitmapFactory.Options();
@@ -114,18 +151,16 @@ public class TesseractOCR extends CordovaPlugin {
     Log.e(TAG, "Starting image decoding...");
 
       Bitmap bitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length, options);
-      bitmap = Bitmap.createScaledBitmap(bitmap, 3120, 4160, false);
       int imageHeight = options.outHeight;
       int imageWidth = options.outWidth;
       Log.e(TAG, "Dimension de la imagen width "+ imageWidth+ ", height "+ imageHeight);
 
-          try {
+      try {
 
-      bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
+        bitmap = createBinaryImage(bitmap);
 
       // scan and recognize the bitmap image
       String recognizedText = "";
-      String recognizedBlocks = "";
 
       Log.e(TAG, "Before baseApi");
       TessBaseAPI baseApi = new TessBaseAPI();
