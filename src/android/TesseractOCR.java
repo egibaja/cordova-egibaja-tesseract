@@ -169,7 +169,7 @@ public class TesseractOCR extends CordovaPlugin {
 
       try {
         //bitmap = createBinaryImage(bitmap);
-        bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
+        //bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
         bitmap = Bitmap.createScaledBitmap(bitmap, imageWidth * 2, imageHeight * 2, false);
 
       // scan and recognize the bitmap image
