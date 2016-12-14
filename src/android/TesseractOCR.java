@@ -9,6 +9,7 @@ import android.util.Base64;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 
 
 // java imports
@@ -17,6 +18,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.ByteArrayOutputStream;
 import java.lang.*;
 
 // cordova imports
@@ -106,7 +108,7 @@ public class TesseractOCR extends CordovaPlugin {
   }
 
 
-  public static Bitmap createBinaryImage( Bitmap bm ){
+  public Bitmap createBinaryImage( Bitmap bm ){
     int[] pixels = new int[bm.getWidth()*bm.getHeight()];
     bm.getPixels( pixels, 0, bm.getWidth(), 0, 0, bm.getWidth(), bm.getHeight() );
     int w = bm.getWidth();
@@ -115,10 +117,8 @@ public class TesseractOCR extends CordovaPlugin {
     long gLightness = 0;
     int lLightness;
     int c;
-    for ( int x = 0; x < bm.getWidth(); x++ )
-    {
-        for ( int y = 0; y < bm.getHeight(); y++ )
-        {
+    for ( int x = 0; x < bm.getWidth(); x++ ){
+        for ( int y = 0; y < bm.getHeight(); y++ ){
             c = pixels[x+y*w];
             lLightness = ((c&0x00FF0000 )>>16) + ((c & 0x0000FF00 )>>8) + (c&0x000000FF);
             pixels[x+y*w] = lLightness;
@@ -126,18 +126,30 @@ public class TesseractOCR extends CordovaPlugin {
         }
     }
     gLightness /= bm.getWidth() * bm.getHeight();
-    gLightness = gLightness * 5 / 6;
+    gLightness = gLightness * 2 / 6;
 
     Bitmap bitmap = bm.copy(Bitmap.Config.ARGB_8888, true);
 
-    for ( int x = 0; x < bm.getWidth(); x++ )
-        for ( int y = 0; y < bm.getHeight(); y++ )
-            binaryImage[x][y] = pixels[x+y*w] <= gLightness;
+
+    int negros = 0;
+    int blancos = 0;
+    Log.e(TAG, "---------------Lightness----------------");
+    for ( int x = 0; x < bm.getWidth(); x++ ){
+      for ( int y = 0; y < bm.getHeight(); y++ ){
           if (pixels[x+y*w] <= gLightness){
-            bitmap.setPixel(x,y, Color.BLACK)
+            bitmap.setPixel(x,y, Color.BLACK);
+            negros += 1;
           }else{
-            bitmap.setPixel(x,y, Color.WHITE)
+            bitmap.setPixel(x,y, Color.WHITE);
+            blancos += 1;
           }
+      }   
+    }
+    Log.e(TAG, "Negros----------------" + negros);
+    Log.e(TAG, "Blancos----------------" + blancos);
+    Log.e(TAG, "Total----------------" + (bm.getWidth()*bm.getHeight()));
+
+
 
     return bitmap;
   }
@@ -156,8 +168,9 @@ public class TesseractOCR extends CordovaPlugin {
       Log.e(TAG, "Dimension de la imagen width "+ imageWidth+ ", height "+ imageHeight);
 
       try {
-
-        bitmap = createBinaryImage(bitmap);
+        //bitmap = createBinaryImage(bitmap);
+        bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
+        bitmap = Bitmap.createScaledBitmap(bitmap, imageWidth * 2, imageHeight * 2, false);
 
       // scan and recognize the bitmap image
       String recognizedText = "";
