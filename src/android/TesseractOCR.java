@@ -126,7 +126,7 @@ public class TesseractOCR extends CordovaPlugin {
         }
     }
     gLightness /= bm.getWidth() * bm.getHeight();
-    gLightness = gLightness * 3 / 6;
+    gLightness = gLightness * 2 / 5;
 
     Bitmap bitmap = bm.copy(Bitmap.Config.ARGB_8888, true);
 
