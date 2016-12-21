@@ -177,7 +177,7 @@ public class TesseractOCR extends CordovaPlugin {
       Log.e(TAG, "Before baseApi");
       TessBaseAPI baseApi = new TessBaseAPI();
       baseApi.setDebug(true);
-      baseApi.setPageSegMode(1);
+      //baseApi.setPageSegMode(1);
       baseApi.init(DATA_PATH, lang);
       baseApi.setVariable("tessedit_char_whitelist", "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ(),.-+auroilnsrmtv");
       baseApi.setImage(bitmap);
