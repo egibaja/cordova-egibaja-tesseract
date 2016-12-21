@@ -168,8 +168,8 @@ public class TesseractOCR extends CordovaPlugin {
       Log.e(TAG, "Dimension de la imagen width "+ imageWidth+ ", height "+ imageHeight);
 
       try {
-        bitmap = createBinaryImage(bitmap);
-        //bitmap = Bitmap.createScaledBitmap(bitmap, imageWidth*2, imageHeight*2, false);
+        //bitmap = createBinaryImage(bitmap);
+        bitmap = Bitmap.createScaledBitmap(bitmap, imageWidth*2, imageHeight*2, false);
 
       // scan and recognize the bitmap image
       String recognizedText = "";
