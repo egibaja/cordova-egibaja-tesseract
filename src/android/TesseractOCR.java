@@ -29,6 +29,8 @@ import org.json.JSONException;
 
 // TessBaseAPI import for tesseract
 import com.googlecode.tesseract.android.TessBaseAPI;
+import com.googlecode.leptonica.android.Pixa;
+
 
 public class TesseractOCR extends CordovaPlugin {
   public final String ACTION_LOADENGINE = "loadEngine";
@@ -185,6 +187,18 @@ public class TesseractOCR extends CordovaPlugin {
       //Log.e(TAG,"OCR wordConfidences" + Arrays.toString(baseApi.wordConfidences().getGeometry()));
       Log.e(TAG,"OCR meanConfidence" + baseApi.meanConfidence());
       Log.e(TAG, "OCRED Text: " + recognizedText);
+
+      Pixa words = baseApi.getWords();
+      int num_words = words.size();
+      int[] word_confidences = baseApi.wordConfidences();
+
+      for(int i =0; i < num_words; i++){
+        int[i] b = words.getBoxRect(i);
+        Log.e(TAG, "_________");
+        Log.e(TAG, "Word "+ i + ", x: " + b[0] + ", y: " + b[1] + ",  w: " + b[2] +", h: "+ b[3]);
+        Log.e(TAG, "confidence: " + word_confidences[i]);
+      }
+
 
       /*
       int total_width = baseApi.getRegions().getBox(0).getWidth();
