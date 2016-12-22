@@ -193,7 +193,7 @@ public class TesseractOCR extends CordovaPlugin {
       int[] word_confidences = baseApi.wordConfidences();
 
       for(int i =0; i < num_words; i++){
-        int[i] b = words.getBoxRect(i);
+        int[] b = words.getBoxRect(i);
         Log.e(TAG, "_________");
         Log.e(TAG, "Word "+ i + ", x: " + b[0] + ", y: " + b[1] + ",  w: " + b[2] +", h: "+ b[3]);
         Log.e(TAG, "confidence: " + word_confidences[i]);
